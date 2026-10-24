@@ -4,6 +4,7 @@ import { connectToDatabase } from "@/server/db/connect";
 import { Session, User } from "@/server/auth/models";
 import { createSessionToken, setSessionCookie } from "@/server/auth/session";
 import { enforceAuthRateLimit } from "@/server/auth/rate-limit";
+import { WeddingMembership } from "@/server/wedding/models";
 
 const loginSchema = z.object({
   email: z.string().trim().email("Enter a valid email address.").max(254),
@@ -42,6 +43,7 @@ export async function POST(request: Request) {
       return json({ error: { code: "INVALID_CREDENTIALS", message: "Invalid email or password." } }, 401);
     }
 
+    const hasWedding = Boolean(await WeddingMembership.exists({ userId: user._id }));
     const sessionToken = createSessionToken();
     await Session.create({ userId: user._id, tokenHash: sessionToken.tokenHash, expiresAt: sessionToken.expiresAt });
     await setSessionCookie(sessionToken.token, sessionToken.expiresAt);
@@ -49,7 +51,7 @@ export async function POST(request: Request) {
     return json({
       data: {
         user: { id: String(user._id), name: user.name, email: user.email },
-        hasWedding: false,
+        hasWedding,
       },
     });
   } catch (error) {

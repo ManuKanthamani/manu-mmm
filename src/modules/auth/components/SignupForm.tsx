@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 type SignupResponse = {
   data?: { user?: { name?: string; email?: string } };
@@ -8,6 +9,7 @@ type SignupResponse = {
 };
 
 export default function SignupForm() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,6 +48,7 @@ export default function SignupForm() {
         return;
       }
       setCreated(true);
+      router.replace("/wedding-setup");
     } catch {
       setError("We could not reach the server. Check your connection and try again.");
     } finally {

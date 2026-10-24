@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 
 type AuthPayload = {
   success?: boolean;
   message?: string;
   error?: { code?: string; message?: string };
-  data?: { user?: { name?: string; email?: string } };
+  data?: { user?: { name?: string; email?: string }; hasWedding?: boolean };
 };
 
 async function postJson(path: string, body: Record<string, string>) {
@@ -36,11 +37,11 @@ function PasswordInput({ id, label, value, onChange, autoComplete }: {
 }
 
 export function SignInForm() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
-  const [signedInName, setSignedInName] = useState("");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -52,21 +53,12 @@ export function SignInForm() {
         setError(payload.error?.message ?? "Sign in failed. Please try again.");
         return;
       }
-      setSignedInName(payload.data?.user?.name ?? "your account");
+      router.replace("/dashboard");
     } catch {
       setError("We could not reach the server. Check your connection and try again.");
     } finally {
       setPending(false);
     }
-  }
-
-  if (signedInName) {
-    return <div className="signup-success" role="status" aria-live="polite">
-      <span className="signup-success-icon" aria-hidden="true">✓</span>
-      <h2>Welcome back, {signedInName.split(" ")[0]}.</h2>
-      <p>You’re signed in. Your wedding workspace is ready for the next step.</p>
-      <a className="signup-button" href="/">Return to homepage</a>
-    </div>;
   }
 
   return <form className="signup-form" onSubmit={submit}>

@@ -682,6 +682,7 @@ Only users without an existing Wedding Membership can use this endpoint.
   "description": "We are getting married!",
   "weddingDate": "2027-02-14",
   "timeZone": "Asia/Kolkata",
+  "coverImagePreset": "palatial-arch",
   "location": {
     "formattedAddress": "Dehradun, Uttarakhand, India",
     "city": "Dehradun",
@@ -693,6 +694,14 @@ Only users without an existing Wedding Membership can use this endpoint.
   }
 }
 ```
+
+The setup form sends this request as `multipart/form-data` so it can optionally
+include a custom cover file. In that format, `location` is a JSON-encoded
+object and `coverFile` is optional. The endpoint also accepts the JSON format
+above when a preset cover is selected. Custom covers are limited to 5 MiB and
+JPEG, PNG, or WebP; the object is stored in R2 and only its object key is saved
+with the Wedding. The selected preset is stored separately as
+`coverImagePreset`.
 
 ### Behaviour
 
@@ -708,8 +717,12 @@ Also generate:
 
 ```text
 website.slug
-gallery token
 ```
+
+Initialize gallery access with `isEnabled: false` and
+`guestUploadsEnabled: false`. Do not issue a gallery share token during wedding
+setup; the gallery settings flow will issue and return one when sharing is
+implemented, replacing the initial unissued hash when it enables sharing.
 
 ### Response
 
@@ -759,8 +772,8 @@ Returns current Wedding.
     "location": {},
     "website": {},
     "gallery": {
-      "isEnabled": true,
-      "guestUploadsEnabled": true
+      "isEnabled": false,
+      "guestUploadsEnabled": false
     },
     "livestream": {
       "youtubeUrl": null,

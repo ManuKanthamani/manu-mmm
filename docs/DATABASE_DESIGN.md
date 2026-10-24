@@ -526,6 +526,8 @@ Wedding {
 
     coverImageObjectKey: String?,
 
+    coverImagePreset: "palatial-arch" | "lotus-motif" | "marigold-modern" | "custom",
+
     location: {
         formattedAddress: String?,
         city: String?,
@@ -717,6 +719,11 @@ Example:
 ```
 
 Only the hash is persisted.
+
+New Wedding records start with gallery sharing and guest uploads disabled. The
+initial token hash is not a published share link; the gallery settings flow must
+issue and return the first usable token when sharing is enabled. After issuance,
+the token remains stable so existing links and printed QR codes keep working.
 
 ---
 
