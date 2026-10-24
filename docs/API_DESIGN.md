@@ -3081,6 +3081,14 @@ POST /api/public/galleries/:token/upload-url
 POST /api/public/galleries/:token/photos
 ```
 
+The authentication endpoints use a MongoDB-backed, per-client fixed-window limiter
+so counters are shared across application instances. Current limits are 10 login
+attempts per 15 minutes, 5 signups per hour, 5 password recovery requests per hour,
+and 10 password reset attempts per 15 minutes. Limited requests return HTTP 429
+with a `Retry-After` header. The limiter fails closed with HTTP 503 if its shared
+store is unavailable. The deployment proxy must provide a trusted client IP in
+`CF-Connecting-IP`, `X-Real-IP`, or `X-Forwarded-For`.
+
 Photo upload flows should additionally enforce upload-count and size limits.
 
 ---

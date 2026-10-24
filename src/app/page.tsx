@@ -189,21 +189,18 @@ function GuestExperience() {
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [accountNotice, setAccountNotice] = useState("");
-  const openAccountNotice = () => setAccountNotice("Sign-up and sign-in are coming soon while we prepare those screens.");
   const closeMenu = () => setMobileMenuOpen(false);
 
   return <main className="site-shell" id="top">
-    {accountNotice && <div className="account-notice" role="status"><span>{accountNotice}</span><button type="button" aria-label="Dismiss message" onClick={() => setAccountNotice("")}>×</button></div>}
     <header className="site-header"><div className="header-inner">
       <a className="brand" href="#top" aria-label="Make My Marriage home"><BrandMark /><span>Make My Marriage</span></a>
       <nav className="desktop-nav" aria-label="Main navigation"><a href="#capabilities">Features</a><a href="#how-it-works">How it works</a><a href="#capabilities">Capabilities</a><a href="#guest-access">Guest access</a></nav>
-      <div className="header-actions"><button className="signin-link account-button" type="button" onClick={openAccountNotice}>Sign in</button><button className="button button-primary header-cta" type="button" onClick={openAccountNotice}>Start planning <Icon name="arrow" size={14} /></button><span className="header-avatar" aria-hidden="true"><Icon name="people" size={15} /></span></div>
+      <div className="header-actions"><a className="signin-link" href="/sign-in">Sign in</a><a className="button button-primary header-cta" href="/create-account">Create account <Icon name="arrow" size={14} /></a><span className="header-avatar" aria-hidden="true"><Icon name="people" size={15} /></span></div>
       <button className={`mobile-nav-toggle ${mobileMenuOpen ? "is-open" : ""}`} type="button" aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? "Close menu" : "Open menu"} onClick={() => setMobileMenuOpen((open) => !open)}><Icon name={mobileMenuOpen ? "close" : "menu"} size={19} /></button>
-    </div>{mobileMenuOpen && <nav className="mobile-nav" aria-label="Mobile navigation"><a href="#capabilities" onClick={closeMenu}>Features</a><a href="#how-it-works" onClick={closeMenu}>How it works</a><a href="#guest-access" onClick={closeMenu}>Guest access</a><button type="button" onClick={openAccountNotice}>Sign in</button><button type="button" onClick={openAccountNotice}>Start planning <Icon name="arrow" size={14} /></button></nav>}</header>
+    </div>{mobileMenuOpen && <nav className="mobile-nav" aria-label="Mobile navigation"><a href="#capabilities" onClick={closeMenu}>Features</a><a href="#how-it-works" onClick={closeMenu}>How it works</a><a href="#guest-access" onClick={closeMenu}>Guest access</a><a href="/sign-in">Sign in</a><a className="mobile-signup-link" href="/create-account">Create account <Icon name="arrow" size={14} /></a></nav>}</header>
 
     <section className="hero-section">
-      <div className="hero-copy"><span className="hero-kicker"><i /> Shared wedding workspace for families <b>·</b> Built for multi-event celebrations</span><h1>Bring your wedding plans together.</h1><p>One shared workspace for couples and families.</p><div className="hero-actions"><button className="button button-primary" type="button" onClick={openAccountNotice}>Start planning <Icon name="arrow" size={15} /></button><button className="button button-outline" type="button" onClick={openAccountNotice}>Sign in</button></div><div className="hero-notes"><span><Icon name="check" size={13} /> Designed for wedding members</span><i /><span>Guests can take part without accounts</span></div></div>
+      <div className="hero-copy"><span className="hero-kicker"><i /> Shared wedding workspace for families <b>·</b> Built for multi-event celebrations</span><h1>Bring your wedding plans together.</h1><p>One shared workspace for couples and families.</p><div className="hero-actions"><a className="button button-primary" href="/create-account">Create your account <Icon name="arrow" size={15} /></a><a className="button button-outline" href="/sign-in">Sign in</a></div><div className="hero-notes"><span><Icon name="check" size={13} /> Designed for wedding members</span><i /><span>Guests can take part without accounts</span></div></div>
       <div className="hero-dashboard-wrap"><DashboardPreview /><p className="preview-disclaimer">Illustrative workspace interface, customized for a multi-event celebration.</p></div>
     </section>
 
@@ -211,8 +208,8 @@ export default function HomePage() {
     <Steps />
     <GuestExperience />
 
-    <section className="closing-cta"><div className="cta-inner"><span className="cta-overline">ONE SHARED WORKSPACE FOR COUPLES AND FAMILIES</span><h2>Bring your wedding plans together today.</h2><p>Keep the details, people, and celebrations in one place.</p><div className="cta-actions"><button className="button button-primary" type="button" onClick={openAccountNotice}>Start planning <Icon name="arrow" size={15} /></button><button className="button button-dark-outline" type="button" onClick={openAccountNotice}>Sign in</button></div><span className="cta-foot"><Icon name="check" size={13} /> Works in your browser</span></div></section>
+    <section className="closing-cta"><div className="cta-inner"><span className="cta-overline">ONE SHARED WORKSPACE FOR COUPLES AND FAMILIES</span><h2>Bring your wedding plans together today.</h2><p>Keep the details, people, and celebrations in one place.</p><div className="cta-actions"><a className="button button-primary" href="/create-account">Create your account <Icon name="arrow" size={15} /></a><a className="button button-dark-outline" href="/sign-in">Sign in</a></div><span className="cta-foot"><Icon name="check" size={13} /> Works in your browser</span></div></section>
 
-    <footer className="site-footer"><div className="footer-top"><div className="footer-brand"><a className="brand" href="#top"><BrandMark /><span>Make My Marriage</span></a><p>One shared workspace to bring your wedding plans together.</p></div><nav aria-label="Footer navigation"><a href="#capabilities">Features</a><a href="#how-it-works">How it works</a><button type="button" onClick={openAccountNotice}>Sign in</button><button className="footer-cta" type="button" onClick={openAccountNotice}>Start planning</button></nav></div><div className="footer-bottom"><span>© 2026 Make My Marriage. All rights reserved.</span><span>Made for celebrations that bring families together.</span></div></footer>
+    <footer className="site-footer"><div className="footer-top"><div className="footer-brand"><a className="brand" href="#top"><BrandMark /><span>Make My Marriage</span></a><p>One shared workspace to bring your wedding plans together.</p></div><nav aria-label="Footer navigation"><a href="#capabilities">Features</a><a href="#how-it-works">How it works</a><a href="/sign-in">Sign in</a><a className="footer-cta" href="/create-account">Create account</a></nav></div><div className="footer-bottom"><span>© 2026 Make My Marriage. All rights reserved.</span><span>Made for celebrations that bring families together.</span></div></footer>
   </main>;
 }
